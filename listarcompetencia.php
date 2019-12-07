@@ -1,26 +1,28 @@
-<?php require 'database/conexao.php' ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Gestor da Base de Conhecimento</title>
+  <title>Sistema de RH</title>
 
-  <link rel="stylesheet" href="libs/bootstrap/css/bootstrap_3.3.7.min.css">
-  <link rel="stylesheet" href="libs/normalize/css/normalize_7.0.0.css">
-  <link rel="stylesheet" href="libs/main.css">
+  <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-3.3.7.min.css">
+  <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="libs/normalize/css/normalize-7.0.0.css">
 </head>
 <body>
-  
+
 <?php require 'menu.php' ?>
 
 <div class="container"> 
-  <h1 class= "text-center">Painel de Visualização dos Documentos</h1>
+  <h1 class= "text-center">Painel de Visualização das Competências</h1>
+  <div id="editar"></div>
   <div class="row">
     <?php
+        require 'database/conexao.php';
+
         error_reporting(1);
-        $busca = "SELECT * FROM av_documentos";
+        $busca = "SELECT * FROM relac_proj_emp";
 
         $total_reg = "10"; // número de registros por página
 
@@ -43,56 +45,26 @@
         
         // vamos criar a visualização
         echo "<div class='panel panel-default'>
-              <div class='panel-heading'>Documentos</div>
+              <div class='panel-heading'>Competências</div>
                <table class='table'>
                <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Documento</th>
-                <th>Data</th>
-                <th>Redator</th>
-                <th>Observação</th>
-                <th>Link</th>
-                <th>Status</th>
+                <th>Projeto</th>
+                <th>Empresa</th>
+                <th></th>
               </tr>";
         while ($dados = mysqli_fetch_array($limite)) 
         {
-          $id = $dados["Id"];
-          $tipo = $dados["Tipo"];
-          $nome_doc = $dados["Nome_Doc"];
-          $data = $dados["Data"];
-          $tags = $dados["Tags"];
-          $redator = $dados["Redator"];
-          $observacao = $dados["Observacao"];
-          $link = $dados["Link"];
-          $status = $dados["Status"];
-
-          if($status==1)
-          {
-            $status = 'Concluído'; 
-          }
-          else if ($status==0)
-          {
-            $status = 'Em execução';
-          }
-          else if ($status==-1)
-          {
-            $status = 'Pendente';
-          }
-          else
-          {
-            $status = 'Sem status!!';
-          }
-
+          $id = $dados["id"];
+          $buscaempresa = "SELECT nome FROM empresa WHERE id =" . $dados["empresa_id"] . ";";
+          $empresadados = mysqli_query($conexao,"$buscaempresa")or die("Erro");
+          $empresa = mysqli_fetch_array($empresadados)[0];
+          $buscaprojeto = "SELECT nome FROM projeto WHERE id =" . $dados["projeto_id"] . ";";
+          $projetodados = mysqli_query($conexao,"$buscaprojeto")or die("Erro");
+          $projeto = mysqli_fetch_array($projetodados)[0];
           echo " <tr>
-                  <th>$id</th>
-                  <th>$tipo</th>
-                  <th>$nome_doc</th>
-                  <th>$data</th>
-                  <th>$redator</th>
-                  <th>$observacao</th>
-                  <th><a class='btn btn-xs btn-info' href='$link'>Abrir</a></th>
-                  <th>$status</th>
+                  <th>$projeto</th>
+                  <th>$empresa</th>
+                  <th><a class=\"btn btn-danger\" href=\"excluircompetencia.php?id=$id\">Excluir</a></th>
                 </tr>
                ";
         }
@@ -126,9 +98,10 @@
       ?>
   </div>
 </div>
- 
-<script src="libs/jquery/js/jquery_3.2.1.min.js"></script>
-<script src="libs/bootstrap/js/bootstrap_3.3.7.min.js"></script>
+
+<script src="libs/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="libs/bootstrap/js/bootstrap-3.3.7.min.js"></script>
+<script src="libs/bootstrap/js/npm.js"></script>
 
 </body>
 </html>

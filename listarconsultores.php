@@ -1,11 +1,10 @@
-<?php require 'database/conexao.php' ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Gestor da Base de Conhecimento</title>
+  <title>Sistema de RH</title>
 
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-3.3.7.min.css">
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-theme.min.css">
@@ -15,12 +14,15 @@
 
 <?php require 'menu.php' ?>
 
-<div class="container">
-	 <div class="row">
+<div class="container"> 
+  <h1 class= "text-center">Painel de Visualização dos Consultores</h1>
+  <div id="editar"></div>
+  <div class="row">
+    <?php
+        require 'database/conexao.php';
 
-	    <?php
         error_reporting(1);
-        $busca = "SELECT * FROM av_documentos";
+        $busca = "SELECT * FROM consultor";
 
         $total_reg = "10"; // número de registros por página
 
@@ -43,58 +45,28 @@
         
         // vamos criar a visualização
         echo "<div class='panel panel-default'>
-              <div class='panel-heading'>Documentos</div>
+              <div class='panel-heading'>Consultores</div>
                <table class='table'>
                <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Documento</th>
-                <th>Data</th>
-                <th>Redator</th>
-                <th>Observação</th>
-                <th>Link</th>
-                <th>Status</th>
-                <th>Opções</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th></th>
+                <th></th>
               </tr>";
         while ($dados = mysqli_fetch_array($limite)) 
         {
-          $id = $dados["Id"];
-          $tipo = $dados["Tipo"];
-          $nome_doc = $dados["Nome_Doc"];
-          $data = $dados["Data"];
-          $tags = $dados["Tags"];
-          $redator = $dados["Redator"];
-          $observacao = $dados["Observacao"];
-          $link = $dados["Link"];
-          $status = $dados["Status"];
-
-          if($status==1)
-          {
-            $status = 'Concluído'; 
-          }
-          else if ($status==0)
-          {
-            $status = 'Em execução';
-          }
-          else if ($status==-1)
-          {
-            $status = 'Pendente';
-          }
-          else
-          {
-            $status = 'Sem status!!';
-          }
-
+          $id = $dados["id"];
+          $nome = $dados["nome"];
+          $telefone = $dados["telefone"];
+          $email = $dados["email"];
+        
           echo " <tr>
-                  <th>$id</th>
-                  <th>$tipo</th>
-                  <th>$nome_doc</th>
-                  <th>$data</th>
-                  <th>$redator</th>
-                  <th>$observacao</th>
-                  <th><a class='btn btn-xs btn-info' href='$link'>Abrir</a></th>
-                  <th>$status</th>
-                  <th><a class='btn btn-xs btn-danger' href='excluindo.php?id=$id'>Excluir</a></th>
+                  <th>$nome</th>
+                  <th>$telefone</th>
+                  <th>$email</th>
+                  <th><a class=\"btn btn-info\" href=\"editarconsultor.php?id=$id&nome=$nome&telefone=$telefone&email=$email\" >Editar</a></th>
+                  <th><a class=\"btn btn-danger\" href=\"excluirconsultor.php?id=$id\">Excluir</a></th>
                 </tr>
                ";
         }
@@ -126,7 +98,7 @@
         echo"   </ul>
             </nav>";
       ?>
-	 </div>
+  </div>
 </div>
 
 <script src="libs/jquery/js/jquery-3.2.1.min.js"></script>

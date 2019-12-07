@@ -17,8 +17,8 @@
    <div class="container">
 	 <div class="row">
 	 	<div class="col-md-6 col-md-offset-3">
-	 		<h1 class="text-center">Editar Empresa </h1>
-			<form action="atualizandoempresa.php" method="post">
+	 		<h1 class="text-center">Editar Consultor </h1>
+			<form action="atualizandoconsultor.php" method="post">
 				<div class="form-group">
 			        <input class="form-control" type="hidden" id="id" name="id" value= <?php echo "\"".$_GET['id']."\"" ?> />
 			    </div>
@@ -27,12 +27,12 @@
 			        <input class="form-control" type="text" id="nome" name="nome" value= <?php echo "\"".$_GET['nome']."\"" ?> />
 			    </div>
 			    <div class="form-group">
-			        <label class="control-label" for="endereco">Endereço:</label>
-			        <input class="form-control" type="text" id="endereco" name="endereco" value=<?php echo "\"".$_GET['endereco']."\"" ?> />
+			        <label class="control-label" for="telefone">Telefone:</label>
+			        <input class="form-control" type="text" id="telefone" name="telefone" value=<?php echo "\"".$_GET['telefone']."\"" ?> />
 			    </div>
 				<div class="form-group">
-				  <label class="control-label" for="cnpj">CNPJ:</label>
-				  <input class="form-control" type="text" id="cnpj" name="cnpj" value=<?php echo "\"".$_GET['cnpj']."\"" ?> />
+				  <label class="control-label" for="email">E-mail:</label>
+				  <input class="form-control" type="text" id="email" name="email" value=<?php echo "\"".$_GET['email']."\"" ?> />
 				</div>  
 			    <input class="btn btn-default"   onclick="atualiza()" type="submit" name="enviar" value="Enviar">
 			</form>

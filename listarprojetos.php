@@ -15,14 +15,14 @@
 <?php require 'menu.php' ?>
 
 <div class="container"> 
-  <h1 class= "text-center">Painel de Visualização das Empresas</h1>
+  <h1 class= "text-center">Painel de Visualização dos Projetos</h1>
   <div id="editar"></div>
   <div class="row">
     <?php
         require 'database/conexao.php';
 
         error_reporting(1);
-        $busca = "SELECT * FROM empresa";
+        $busca = "SELECT * FROM projeto";
 
         $total_reg = "10"; // número de registros por página
 
@@ -45,12 +45,15 @@
         
         // vamos criar a visualização
         echo "<div class='panel panel-default'>
-              <div class='panel-heading'>Empresas</div>
+              <div class='panel-heading'>Projetos</div>
                <table class='table'>
                <tr>
                 <th>Nome</th>
-                <th>Endereço</th>
-                <th>CNPJ</th>
+                <th>Caracteristicas</th>
+                <th>Cronograma</th>
+                <th>Telefone</th>
+                <th>Escritorio</th>
+                <th>Gerente</th>
                 <th></th>
                 <th></th>
               </tr>";
@@ -58,15 +61,26 @@
         {
           $id = $dados["id"];
           $nome = $dados["nome"];
-          $endereco = $dados["endereco"];
-          $cnpj = $dados["cnpj"];
-        
+          $caracteristicas = $dados["caracteristicas"];
+          $cronograma = $dados["cronograma"];
+          $telefone = $dados["telefone"];
+          $nome_esc = "SELECT nome FROM escritorio WHERE id=".$dados["escritorio_id"];
+          $nome_dados = mysqli_query($conexao,"$nome_esc")or die("Erro");
+          $escritorio = mysqli_fetch_array($nome_dados)[0];
+          $escritorio_id = $dados["escritorio_id"];
+          $nome_gerente = "SELECT nome FROM gerente WHERE id=".$dados["gerente_id"];
+          $gerente_dados = mysqli_query($conexao,"$nome_gerente")or die("Erro");
+          $gerente = mysqli_fetch_array($gerente_dados)[0];  
+          $gerente_id = $dados["gerente_id"];      
           echo " <tr>
                   <th>$nome</th>
-                  <th>$endereco</th>
-                  <th>$cnpj</th>
-                  <th><a class=\"btn btn-info\" href=\"editarempresa.php?id=$id&nome=$nome&endereco=$endereco&cnpj=$cnpj\" >Editar</a></th>
-                  <th><a class=\"btn btn-danger\" href=\"excluirempresa.php?id=$id\">Excluir</a></th>
+                  <th>$caracteristicas</th>
+                  <th>$cronograma</th>
+                  <th>$telefone</th>
+                  <th>$escritorio</th>
+                  <th>$gerente</th>
+                  <th><a class=\"btn btn-info\" href=\"editarprojeto.php?id=$id&nome=$nome&endereco=$endereco&cnpj=$cnpj\" >Editar</a></th>
+                  <th><a class=\"btn btn-danger\" href=\"excluirprojeto.php?id=$id\">Excluir</a></th>
                 </tr>
                ";
         }
